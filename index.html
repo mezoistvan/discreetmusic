@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+    }
     #canvas {
         position: fixed;
         top: 0;
@@ -8,14 +12,32 @@
         height: 100%;
         background: radial-gradient(circle, #123, #100);
     }
+    #start {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        height: 200px;
+        width: 200px;
+        top: calc(50% - 100px);
+        left: calc(50% - 100px);
+        cursor: pointer;
+        z-index: 300;
+        color: white;
+    }
 </style>
+<div id="start" onclick="startAndHide()">
+    <h1>discreet music</h1>
+    <br>
+    <h2>play</h2>
+</div>
 <canvas id="canvas"></canvas>
 <audio id="audio"></audio>
 <script>
     var MAX_LIFETIME = 960 * 60;
 var c = canvas.getContext('2d');
 
-var onload = function update() {
+function update() {
     requestAnimationFrame(update);
 
     // init
@@ -111,9 +133,7 @@ var drawStuff = function () {
     });
 }
 </script>
-<!--<script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>-->
-<script src="https://tonejs.github.io/build/Tone.min.js"></script>
+<script src="https://unpkg.com/tone@13.4.9/build/Tone.js"></script>
 <script>
     function makeSynth() {
     let envelope = {
@@ -197,6 +217,12 @@ new Tone.Loop(time => {
     // Trigger G4 after 23 measures + two 1/4 notes. Hold for a half note.
     rightSynth.triggerAttackRelease('G4', '0:2', '+23:2');
 }, '37m').start();
+</script>
 
-Tone.Transport.start();
+<script>
+    function startAndHide() {
+        update();
+        Tone.Transport.start();
+        document.getElementById('start').style.display = 'none';
+    }
 </script>
